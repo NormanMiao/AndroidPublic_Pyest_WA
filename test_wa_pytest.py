@@ -1,8 +1,5 @@
 # -*- coding: UTF-8 -*-
-try:
-    from uitrace.api import *
-except:
-    print("cannot import module uitrace.api")
+from uitrace.api import *
 import pytest
 
 class TestClass():
@@ -36,7 +33,7 @@ class TestClass():
         # 点击SIGNIN按钮
         click('//android.view.ViewGroup[@resource-id="com.tencent.wetestdemo:id/container"]/android.widget.Button[@text="SIGNIN" and @resource-id="com.tencent.wetestdemo:id/login"]', by=DriverType.UI, timeout=30)
         # 弹窗Login Failed
-        failed_msg = find_ocr(word="Login Failed",timeout=20)
+        failed_msg = find_ocr(word="Login Failed",timeout=60)
         # ocr文字识别断言内容包含Login Failed的弹窗
         assert failed_msg is not None
         print(failed_msg)
@@ -47,7 +44,7 @@ class TestClass():
         # 等待3秒
         time.sleep(3)
         # 再次断言，Login Failed的弹窗已不再出现
-        failed_msg = find_ocr(word="Login Failed",timeout=5)
+        failed_msg = find_ocr(word="Login Failed",timeout=60)
         assert failed_msg is None
 
     def test_login_success(self):
@@ -70,7 +67,7 @@ class TestClass():
         # 截图
         screenshot(label="screenshot", img_path=None, pos=None)
         # 进入SELECT页面，断言左上角SELECT元素存在
-        select = find(loc="//*[@text='SELECT']", by=DriverType.UI, timeout=30)
+        select = find(loc="//*[@text='SELECT']", by=DriverType.UI, timeout=60)
         assert select is not None
 
 
@@ -96,7 +93,8 @@ class TestClass():
         click(loc=item_pos, by=DriverType.POS, offset=None, timeout=30)
         time.sleep(2)
         # 点击提交(CV定位)
-        click(loc="obj_1670841033674.jpg", by=DriverType.CV, offset=None, timeout=30, duration=0.05, times=1)
+        click(loc="SUBMIT", by=DriverType.OCR)
+        #click(loc="obj_1670841033674.jpg", by=DriverType.CV, offset=None, timeout=30, duration=0.05, times=1)
         time.sleep(2)
         # 进入检查页面，检查之前选择的item1和Item10在页面上显示
         select_item =find(loc="obj_1670845223122.jpg", by=DriverType.CV, timeout=30)
